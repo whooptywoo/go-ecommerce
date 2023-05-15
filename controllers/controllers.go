@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"go-ecommerce/database"
 	"go-ecommerce/models"
+	generate "go-ecommerce/tokens"
 	"log"
 	"net/http"
 	"time"
@@ -126,17 +127,19 @@ func Login() gin.HandlerFunc {
 			fmt.Println(msg)
 			return
 		}
-		token, refreshToken, _ := generate.TokenGenerator(*foundUser.Email, *foundUser.Last_Name, foundUser.User_ID)
+		token, refreshToken, _ := generate.TokenGenerator(*foundUser.Email, *foundUser.First_Name, *foundUser.Last_Name, foundUser.User_ID)
 		defer cancel()
 
-		generate.UpdateAllTokens(token, refreshToken, foundUser.User_ID)
+		generate.UpdateTokens(token, refreshToken, foundUser.User_ID)
 		c.JSON(http.StatusFound, foundUser)
 	}
 }
 
 //ProductViewerAdmin
 func ProductViewerAdmin() gin.HandlerFunc {
-
+	return func(ctx *gin.Context) {
+		
+	}
 }
 
 
